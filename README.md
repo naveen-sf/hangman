@@ -1,27 +1,42 @@
-# hangman
-This is the new UI created by the SF team.
+# Intro
+This project is meant to be an example of how to implement an hangman game system on the server and on the client. This git repo has a folder for client and server but they are meant to be viewed as two seperate project. They are in the same git repo for convienence sake. Pretend that the client folder has no idea the server folder exists and visa versa. The client folder is a normal create-react-app project. The server folder has the typical MVC code setup.
 
-### Quick Start ###
-* Install node.js: https://nodejs.org​
-* Install yarn package manager: https://yarnpkg.com/​
-* Install node modules by running terminal command `yarn install` for client and server both
-* Run the app `yarn start` for client and `node server.js` for server
-* Or build production app `yarn build` for client
+# .env
+Sometimes your code needs to be provided sensitive information. In our server, we need the url to our mongodb database which includes the username and password. This information should not be public but if we include it in our code which is part of a git repo, what will happen when you push it to github? This sensitive information will be viewable by the world. We need to organize our code such that all private information is in one specific file. The rest of the code can then retrieve the information from this file. This file should then not be included in the git repo. How do you tell git to ignore certain files? What happens when someone clones your repo and needs that file?
 
-### `yarn test`
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Setup
+* fork and clone
+* do a `npm i` in each folder seperately (/client and /server)
+* in the /client folder do a npm start
+* in the /server folder do a nodemon server.js
+* create an .env file in /server and put information like PORT and DB_URL
+* create an .env file in /client and put information like REACT_APP_API_END_POINT
 
-### `yarn run build`
+# Database
+* Make sure you are running mongoDB or using Mlab
+* Make sure you have a database setup called “games" or similiar
+* put your database url in the env file
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Client
+* Create a component called Login
+* Use any email for an example
+* Make sure the button says Sign In 
+* In handleSubmit, call onSubmit function
+* in App.js, have two main components login and game 
+* If user is not sign-in it will go to login component first after entering a valid email go to game component
+* The game component has different child components like keyboard, hangman, newgamebutton and so on.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+### Build
+* Make sure you have everything working locally as you intend
+* Do a `npm run build`
+* Copy the contents of /client/build into /server/public. Don't copy the actual /build folder into the /server/public folder
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Server
+* Create 4 routes on the server
+* It is to getGameStates, getGameStates, setupNewGame, updategame
+
+
 
 ### `yarn run eject`
 

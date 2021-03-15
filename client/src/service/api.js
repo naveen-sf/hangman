@@ -103,6 +103,11 @@ export async function getRandomWordData() {
             if (isError) {
                 throw errorDetails;
             }
+            if(data === "Something Went Wrong - Enter the Correct API URL"){
+                notification.error({
+                    message: 'Enter the Correct API URL for random word'
+                });
+            }
             if (data) {
                 return data;
             }

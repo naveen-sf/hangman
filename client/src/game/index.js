@@ -67,7 +67,9 @@ const Game = ({ userEmail, dispatch, isFoundData, gameData, randomWordData }) =>
             (event.keyCode >= 65 && event.keyCode <= 90) ||
             (event.keyCode >= 97 && event.keyCode <= 122)
         ) {
-            handleGuesses(event.key);
+            const isfound = myStateRef.current.letters.find(x => x.name === event.key);
+            if (isfound && !isfound.chosen)
+                handleGuesses(event.key);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -82,6 +84,13 @@ const Game = ({ userEmail, dispatch, isFoundData, gameData, randomWordData }) =>
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+
+    // highlight-starts
+    const debouncedSave = useCallback(
+        _.debounce(() => checkForEndOfGame(), 500),
+        [], // will be created only once initially
+    );
 
     // method to call api to create and save new game
     const createAndSendGame = () => {
@@ -100,7 +109,8 @@ const Game = ({ userEmail, dispatch, isFoundData, gameData, randomWordData }) =>
     }
 
     // call api when user select word to update the game data
-    const checkForEndOfGame = (newGameState) => {
+    const checkForEndOfGame = () => {
+        const newGameState = _.cloneDeep(myStateRef.current);
         newGameState.win = _.reduce(newGameState.secretWord, (memo, letter) => memo && letter.chosen, true);
         if (newGameState.win === false && newGameState.missesAllowed === 0) {
             newGameState.lost = true;
@@ -130,8 +140,8 @@ const Game = ({ userEmail, dispatch, isFoundData, gameData, randomWordData }) =>
 
     // call when user click on keyboard
     const handleGuesses = key => {
-        let newGameState = { ...myStateRef.current };
-        if (!newGameState.win && !newGameState.lost) {
+        let newGameState = _.cloneDeep(myStateRef.current);
+        if (!newGameState.win && !newGameState.lost && newGameState.missesAllowed > 0 && newGameState.missesAllowed <= 6) {
             const guess = newGameState.letters.filter(x => x.name === key);
             guess[0].chosen = true;
             let found = false;
@@ -145,10 +155,11 @@ const Game = ({ userEmail, dispatch, isFoundData, gameData, randomWordData }) =>
 
             if (found === false) {
                 newGameState = { ...newGameState, missesAllowed: newGameState.missesAllowed - 1 };
-                setGameState(newGameState);
-                myStateRef.current = newGameState;
             }
-            checkForEndOfGame(newGameState);
+            setGameState(newGameState);
+            myStateRef.current = newGameState;
+
+            debouncedSave();
         }
     };
 
@@ -163,7 +174,7 @@ const Game = ({ userEmail, dispatch, isFoundData, gameData, randomWordData }) =>
 
 
     const { letters, lost, win } = gameState;
-    
+
     if (gameState && (letters && letters.length === 0) || !letters || loading) {
         return <Loader />;
     }

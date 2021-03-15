@@ -30,11 +30,11 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.use(express.static(__dirname + '/../client'));
+app.use(express.static("public"));
 app.use('/api', router);
 
 //Setting port and listen
-var port = 3080;
+const port = process.env.PORT || 3001;
 http.listen(port, function(){
   console.log('Listening on port:' + port);
 });
