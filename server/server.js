@@ -9,7 +9,13 @@ var morgan = require('morgan');
 var app = express();
 var http = require('http').Server(app);
 var router = require('./routes.js');
-var db = require('./db/gameSchema');
+// require database connection
+const dbConnect = require("./db/dbConnect");
+const Game = require("./db/gameSchema");
+
+
+// execute database connection
+dbConnect();
 
 //logging and parsing
 app.use(morgan('dev'));

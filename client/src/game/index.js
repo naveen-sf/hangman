@@ -162,7 +162,9 @@ const Game = ({ userEmail, dispatch, isFoundData, gameData, randomWordData }) =>
     };
 
 
-    if (gameState && (gameState.letters && gameState.letters.length === 0) || !gameState.letters || loading) {
+    const { letters, lost, win } = gameState;
+    
+    if (gameState && (letters && letters.length === 0) || !letters || loading) {
         return <Loader />;
     }
     return (
@@ -172,7 +174,7 @@ const Game = ({ userEmail, dispatch, isFoundData, gameData, randomWordData }) =>
                 <Hangman gameState={gameState} totalMistakes={totalMistakes} />
                 <div className='right'>
                     <Keyboard gameState={gameState} handleGuesses={handleGuesses} />
-                    {gameState.win || gameState.lost ? <NewGameButton handleReset={handleReset} /> : null}
+                    {win || lost ? <NewGameButton handleReset={handleReset} /> : null}
 
                 </div>
                 <EndGame gameState={gameState} />
