@@ -1,0 +1,268 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Hangman Game",
+        "version": "1.0.0",
+        "title": "Hangman Game"
+    },
+    "host": "localhost:3001",
+    "basePath": "/api",
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/game-states": {
+            "get": {
+                "summary": "Get all game states",
+                "description": "geta all played game for all users",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "response",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/allgamestates"
+                            }
+                        }
+                    },
+                    "400": {
+                        "error": true,
+                        "msg": "not found"
+                    }
+                }
+            }
+        },
+        "/game-states/{email}": {
+            "get": {
+                "summary": "Get game by user email",
+                "description": "geta current game by user eamil",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "path",
+                        "description": "email id that needs to be get current game",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "response",
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "$ref": "#/definitions/gameResponse"
+                            }
+                        }
+                    },
+                    "400": {
+                        "error": true,
+                        "msg": "not found"
+                    }
+                }
+            }
+        },
+        "/game": {
+            "post": {
+                "summary": "Start new game",
+                "description": "start new game",
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "game object",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "secretWord": {
+                                "type": "array"
+                            },
+                            "letters": {
+                                "type": "array"
+                            },
+                            "definition": {
+                                "type": "string"
+                            },
+                            "email": {
+                                "type": "string"
+                            },
+                            "fullWord": {
+                                "type": "string"
+                            },
+                            "lost": {
+                                "type": "boolean"
+                            },
+                            "win": {
+                                "type": "boolean"
+                            },
+                            "missesAllowed": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "successful created",
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "$ref": "#/definitions/gameResponse"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value"
+                    }
+                }
+            }
+        },
+        "/game/{id}": {
+            "put": {
+                "summary": "update the game",
+                "description": "update the game",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "game id that needs to be updated",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "game object",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "secretWord": {
+                                "type": "array"
+                            },
+                            "letters": {
+                                "type": "array"
+                            },
+                            "definition": {
+                                "type": "string"
+                            },
+                            "email": {
+                                "type": "string"
+                            },
+                            "fullWord": {
+                                "type": "string"
+                            },
+                            "lost": {
+                                "type": "boolean"
+                            },
+                            "win": {
+                                "type": "boolean"
+                            },
+                            "missesAllowed": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful updated",
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "$ref": "#/definitions/gameResponse"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "allgamestates": {
+            "type": "object",
+            "properties": {
+                "secretWord": {
+                    "type": "array"
+                },
+                "letters": {
+                    "type": "array"
+                },
+                "definition": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "fullWord": {
+                    "type": "string"
+                },
+                "lost": {
+                    "type": "boolean"
+                },
+                "win": {
+                    "type": "boolean"
+                },
+                "missesAllowed": {
+                    "type": "number"
+                },
+                "_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "gameResponse": {
+            "type": "object",
+            "properties": {
+                "secretWord": {
+                    "type": "array"
+                },
+                "letters": {
+                    "type": "array"
+                },
+                "definition": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "fullWord": {
+                    "type": "string"
+                },
+                "lost": {
+                    "type": "boolean"
+                },
+                "win": {
+                    "type": "boolean"
+                },
+                "missesAllowed": {
+                    "type": "number"
+                },
+                "_id": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "externalDocs": {
+        "description": "Find out more about Hangman Game",
+        "url": "https://en.wikipedia.org/wiki/Hangman_(game"
+    }
+}

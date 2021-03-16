@@ -86,10 +86,9 @@ const Game = ({ userEmail, dispatch, isFoundData, gameData, randomWordData }) =>
     }, []);
 
 
-    // highlight-starts
+  // eslint-disable-next-line react-hooks/exhaustive-deps
     const debouncedSave = useCallback(
         _.debounce(() => checkForEndOfGame(), 500),
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         [], // will be created only once initially
     );
 

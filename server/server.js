@@ -13,6 +13,9 @@ var router = require('./routes.js');
 const dbConnect = require("./db/dbConnect");
 const Game = require("./db/gameSchema");
 
+// API documentation
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger.json");
 
 // execute database connection
 dbConnect();
@@ -31,6 +34,7 @@ var corsOptions = {
 app.use(cors(corsOptions));
 
 app.use(express.static("public"));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/api', router);
 
 //Setting port and listen

@@ -1,13 +1,13 @@
 var router = require('express').Router();
 var controller = require('./controller');
 
-router.get('/getGameStates', controller.gameStates.getAllGames)
+router.get('/game-states', controller.gameStates.getAllGames)
 
-router.get('/getGameStates/:email', controller.gameStates.getGameState)
+router.get('/game-states/:email', controller.gameStates.getGameState)
 
-router.post('/setupNewGame', controller.createAndUpdate.createNewGame)
+router.post('/game', controller.createAndUpdate.createNewGame)
 
-router.put('/updateGame/:id', controller.createAndUpdate.updateGame)
+router.put('/game/:id', controller.createAndUpdate.updateGame)
 
 
 module.exports = router;

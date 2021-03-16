@@ -6,7 +6,7 @@ export async function getGameData({
     userEmail
 }) {
     return apiClient
-        .get(`/getGameStates/${userEmail}`)
+        .get(`/game-states/${userEmail}`)
         .then(response => {
             if (!response) {
                 throw new Error('No response').message;
@@ -35,7 +35,7 @@ export async function setNewGameData({
 }) {
 
     return apiClient
-        .post(`/setupNewGame`, {
+        .post(`/game`, {
             secretWord, missesAllowed, win, lost, letters, fullWord, email, definition
         })
         .then(response => {
@@ -66,7 +66,7 @@ export async function updateGameData({
 }) {
 
     return apiClient
-        .put(`/updateGame/${id}`, {
+        .put(`/game/${id}`, {
             secretWord, missesAllowed, win, lost, letters, fullWord, email, definition
         })
         .then(response => {
